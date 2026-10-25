@@ -1,16 +1,51 @@
-# React + Vite
+# Pocket Quests ✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A cozy, game-inspired quest journal for making everyday activities, hobbies, and personal goals more fun.
 
-Currently, two official plugins are available:
+Pocket Quests aims to encourage small, regular efforts through a playful experience that makes personal progress visible and rewarding — without turning productivity into another chore.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🎯 Project Goals
 
-## React Compiler
+- Make it easier to build routines around hobbies and personal goals.
+- Turn everyday activities into reusable quests.
+- Encourage consistency through visible progress and positive feedback.
+- Create a cute, cozy experience that feels more like a game than a traditional productivity tool.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- JavaScript
+- CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚧 Project Status
+
+Pocket Quests is currently in the initial setup phase. The project is being developed incrementally, starting with a simple quest journal before introducing more advanced game mechanics.
+
+## 🗺️ Planned Features
+
+### MVP
+- Create, view, edit, and delete reusable quests.
+- Complete quests with one tap.
+- Track completion history and basic progress.
+- Store data locally in the browser.
+- Responsive, mobile-first design for phones and desktops.
+- Simple visual feedback for completed quests.
+
+### Future Ideas
+- Onboarding with hobby categories and suggested quests.
+- Streaks and collectible achievement badges.
+- Quest cards that evolve as progress builds.
+- Personal challenges and random quest suggestions.
+- A plant, animal, or other companion that grows with the user's progress.
+- Accounts and cloud synchronisation.
+
+## 🌱 Development Philosophy
+
+Pocket Quests is being built as a learning project with an emphasis on understanding the code, keeping the implementation simple, and introducing complexity only when it adds value.
+
+The goal is to build a useful, enjoyable core experience first and expand it gradually.
+
+---
+
+*Pocket Quests is a work in progress.*
