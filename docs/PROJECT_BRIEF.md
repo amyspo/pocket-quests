@@ -25,10 +25,9 @@ The experience should feel like a light, cozy game rather than another productiv
 - Use a responsive, mobile-first design that works on phones and desktops.
 - Provide simple, satisfying visual feedback when a quest is completed.
 
-Optional onboarding with hobby categories and predefined quest suggestions may be included if time allows.
-
 ## Future Possibilities
 
+- Onboarding with hobby categories and predefined quest suggestions.
 - Category-based progress and streaks.
 - Collectible achievement badges.
 - Quest cards that evolve as progress builds.

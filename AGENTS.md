@@ -34,6 +34,12 @@ Pocket Quests is a React app that turns everyday tasks into small, manageable qu
 - Semantic HTML over generic `<div>`s
 - Clear, descriptive names for variables and functions
 
+## Styling and Visual Design
+
+- Prefer clear visual hierarchy, readable text, and uncluttered layouts.
+- Use plain CSS and shared design tokens to maintain consistent styling.
+- Avoid adding a UI component library, ask my permission, if you want to use one.
+
 ## Learning and Review
 
 - Explain unfamiliar concepts and important implementation decisions.
@@ -47,3 +53,13 @@ Before saying a task is done:
 - Run `npm run build` and confirm it succeeds
 - Report which checks were run and whether they passed
 - Never claim that something was tested if it was not
+
+## Implementation Guidelines
+
+- Define shared configuration values as named constants rather than repeating magic numbers. Keep values that may become user settings easy to change.
+- Keep business logic separate from presentation where practical, without introducing unnecessary abstractions.
+- Handle date-dependent behavior using the user's local calendar date.
+- Account for the app being inactive when date-dependent state needs to be refreshed, such as when the browser window regains focus.
+- Keep existing ordering stable when state changes unless the requirements explicitly call for reordering.
+- Before implementing behavior with important edge cases, explain the proposed approach and clarify any unresolved requirements.
+- Prefer accessible, semantic controls and provide clear feedback for user actions.
