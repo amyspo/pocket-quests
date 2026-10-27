@@ -3,6 +3,7 @@ import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
 import ProgressPanel from './components/ProgressPanel.jsx'
 import QuestList from './components/QuestList.jsx'
+import QuestSectionHeader from './components/QuestSectionHeader.jsx'
 import {
   getLocalDateKey,
   loadInitialState,
@@ -12,7 +13,6 @@ import {
 import './App.css'
 import star from './assets/icons/Star.png'
 import threeSparkles from './assets/icons/ThreeSparkles.png'
-import sparkle from './assets/icons/OneSparkle.png'
 
 function App() {
   // Passing the function lets React call it only for the initial state.
@@ -155,24 +155,10 @@ function App() {
       <ProgressPanel quests={questState.quests} today={today} />
 
       <section className="quest-section" aria-labelledby="quests-heading">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">YOUR ADVENTURES</p>
-            <h2 id="quests-heading">Quest board <img src={sparkle} className="eyebrow-sparkle" alt="" /></h2>
-          </div>
-          <div className="section-actions">
-            <button
-              className="button button--quiet"
-              type="button"
-              onClick={() => setActiveModal('manage')}
-            >
-              Manage
-            </button>
-            <button className="button button--primary" type="button" onClick={openCreateModal}>
-              <span aria-hidden="true">+</span> New quest
-            </button>
-          </div>
-        </div>
+        <QuestSectionHeader
+          onManage={() => setActiveModal('manage')}
+          onCreate={openCreateModal}
+        />
 
         <QuestList
           quests={questState.quests}
