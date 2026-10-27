@@ -481,7 +481,7 @@
   color: var(--color-text);
   background: var(--paper);
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .quest-form input:focus-visible {
