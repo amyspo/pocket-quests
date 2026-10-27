@@ -9,3 +9,5 @@ Extracted the daily progress panel and its calculations from `App.jsx` into `src
 Extracted quest-list and empty-state rendering from `App.jsx` into `src/components/QuestList.jsx` to separate conditional board contents and practice passing event handlers as props. Files changed: `src/App.jsx`, `src/components/QuestList.jsx`, and this log. Checks: `npm run lint` and `npm run build` passed.
 
 Extracted the quest-section heading and action buttons from `App.jsx` into `src/components/QuestSectionHeader.jsx` to give the board heading a small component boundary and practice callback props. Files changed: `src/App.jsx`, `src/components/QuestSectionHeader.jsx`, and this log. Checks: `npm run lint` and `npm run build` passed.
+
+Extracted the static welcome section from `App.jsx` into `src/components/WelcomeSection.jsx` to separate a self-contained piece of page markup without moving state or behavior. Files changed: `src/App.jsx`, `src/components/WelcomeSection.jsx`, and this log. Checks: `npm run lint` and `npm run build` passed.

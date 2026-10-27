@@ -4,6 +4,7 @@ import QuestManagementModal from './components/QuestManagementModal.jsx'
 import ProgressPanel from './components/ProgressPanel.jsx'
 import QuestList from './components/QuestList.jsx'
 import QuestSectionHeader from './components/QuestSectionHeader.jsx'
+import WelcomeSection from './components/WelcomeSection.jsx'
 import {
   getLocalDateKey,
   loadInitialState,
@@ -12,7 +13,6 @@ import {
 } from './utils/questState.js'
 import './App.css'
 import star from './assets/icons/Star.png'
-import threeSparkles from './assets/icons/ThreeSparkles.png'
 
 function App() {
   // Passing the function lets React call it only for the initial state.
@@ -141,16 +141,7 @@ function App() {
         <span className="top-bar-note">A little progress goes a long way</span>
       </header>
 
-      <section className="welcome" aria-labelledby="welcome-heading">
-        <div className="welcome-copy">
-          <p className="eyebrow">YOUR PERSONAL QUEST JOURNAL</p>
-          <h1 id="welcome-heading">Hello, traveler!</h1>
-          <p className="welcome-description">
-            Make a little room for the things that make you feel like you.
-          </p>
-        </div>
-        <img src={threeSparkles} className="welcome-sparkles" alt="" />
-      </section>
+      <WelcomeSection />
 
       <ProgressPanel quests={questState.quests} today={today} />
 
