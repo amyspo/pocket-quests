@@ -23,4 +23,8 @@ This document describes how AI is used during the development of Pocket Quests a
 
 ## Development Notes
 
-Add significant lessons or workflow improvements here as the project evolves.
+The first prompt was a success. Working with a home screen spec, project brief and agent.md worked great. The only thing that didn't work, for me, was the styling of the application. It looked very boring and generic. But the functionality was great. There were no major bugs. Even edge cases were considered and implemented. I am really happy with the outcome. 
+
+## Next steps
+
+I want to work on refactoring the code before moving on to new features. The App.jsx is pretty long and a bit hard to read, so I want to seperate a bit of the logic, to make everything easier to understand.

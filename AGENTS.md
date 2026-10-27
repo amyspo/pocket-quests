@@ -22,7 +22,7 @@ Pocket Quests is a React app that turns everyday tasks into small, manageable qu
 - For changes touching more than 2-3 files, explain your approach first.
 - Prefer simple, readable solutions over unnecessary abstractions.
 - Follow the existing project structure and conventions.
-- Do not add dependencies unless needed; explain why before adding them.
+- Don’t add dependencies without asking first, and explain why one is needed.
 - Do not modify unrelated files or features.
 - Ask for clarification when requirements are ambiguous instead of
   making significant assumptions.
@@ -38,7 +38,7 @@ Pocket Quests is a React app that turns everyday tasks into small, manageable qu
 
 - Prefer clear visual hierarchy, readable text, and uncluttered layouts.
 - Use plain CSS and shared design tokens to maintain consistent styling.
-- Avoid adding a UI component library, ask my permission, if you want to use one.
+- Don’t add a UI component library without asking my permission first.
 
 ## Learning and Review
 
@@ -63,3 +63,11 @@ Before saying a task is done:
 - Keep existing ordering stable when state changes unless the requirements explicitly call for reordering.
 - Before implementing behavior with important edge cases, explain the proposed approach and clarify any unresolved requirements.
 - Prefer accessible, semantic controls and provide clear feedback for user actions.
+
+## Project Structure and Naming
+
+- Components: `src/components/`, one per file, PascalCase (`QuestCard.jsx`)
+- Custom hooks: `src/hooks/`, camelCase starting with `use` (`useQuests.js`)
+- Pure helper functions (dates, sorting): `src/utils/`
+- Constants: `src/constants/` (or tell me if you prefer another location)
+- Check the existing folders first and follow them if they differ from this list.
