@@ -51,12 +51,7 @@
   text-decoration: none;
 }
 
-.wordmark-icon {
-  color: var(--color-accent-yellow);
-  font-size: 23px;
-}
-
-.wordmark-sparkle {
+.wordmark-star {
   width: 24px;
   height: 24px;
   image-rendering: pixelated;
@@ -93,6 +88,12 @@
   letter-spacing: 1.5px;
 }
 
+.eyebrow-sparkle {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
 .welcome h1 {
   margin: 0;
   color: var(--color-green-dark);
@@ -115,12 +116,10 @@
   font-size: 15px;
 }
 
-.welcome-sparkle {
-  width: 130px;
-  height: 130px;
+.welcome-sparkles {
+  width: 64px;
+  height: 64px;
   margin-right: 5%;
-  border: 1px solid var(--color-lines);
-  border-radius: 50%;
   color: var(--color-accent-yellow);
   display: grid;
   place-items: center;

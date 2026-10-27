@@ -4,6 +4,8 @@ import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
 import { sampleQuests } from './data/sampleQuests.js'
 import './App.css'
+import star from './assets/icons/Star.png'
+import threeSparkles from './assets/icons/ThreeSparkles.png'
 import sparkle from './assets/icons/OneSparkle.png'
 
 const STORAGE_KEY = 'pocket-quests'
@@ -206,7 +208,7 @@ function App() {
     <main className="home-screen">
       <header className="top-bar">
         <a className="wordmark" href="/" aria-label="Pocket Quests home">
-          <img src={sparkle} className="wordmark-sparkle" alt="" />
+          <img src={star} className="wordmark-star" alt="" />
           pocket quests
         </a>
         <span className="top-bar-note">A little progress goes a long way</span>
@@ -215,20 +217,20 @@ function App() {
       <section className="welcome" aria-labelledby="welcome-heading">
         <div className="welcome-copy">
           <p className="eyebrow">YOUR PERSONAL QUEST JOURNAL</p>
-          <h1 id="welcome-heading">Hello, traveler <span aria-hidden="true">✷</span></h1>
+          <h1 id="welcome-heading">Hello, traveler!</h1>
           <p className="welcome-description">
             Make a little room for the things that make you feel like you.
           </p>
         </div>
-        <div className="welcome-sparkle" aria-hidden="true">✦</div>
+        <img src={threeSparkles} className="welcome-sparkles" alt="" />
       </section>
 
       <section className="progress-panel" aria-labelledby="progress-heading">
         <div className="progress-copy">
           <div>
-            <p className="eyebrow" id="progress-heading">TODAY&apos;S LITTLE WINS</p>
+            <p className="eyebrow" id="progress-heading">TODAY&apos;S JOURNEY</p>
             <p className="progress-count">
-              <strong>{displayedProgress}</strong> of {dailyGoal} quests done today
+              <strong>{displayedProgress}</strong> of {dailyGoal} quests completed
             </p>
           </div>
           <p className={`progress-message${goalReached ? ' progress-message--complete' : ''}`}>
@@ -258,7 +260,7 @@ function App() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">YOUR ADVENTURES</p>
-            <h2 id="quests-heading">Quest board <span aria-hidden="true">🪴</span></h2>
+            <h2 id="quests-heading">Quest board <img src={sparkle} className="eyebrow-sparkle" alt="" /></h2>
           </div>
           <div className="section-actions">
             <button
