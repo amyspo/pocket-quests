@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import QuestCard from './components/QuestCard.jsx'
 import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
 import ProgressPanel from './components/ProgressPanel.jsx'
+import QuestList from './components/QuestList.jsx'
 import {
   getLocalDateKey,
   loadInitialState,
@@ -174,28 +174,12 @@ function App() {
           </div>
         </div>
 
-        {questState.quests.length === 0 ? (
-          <div className="empty-state">
-            <span className="empty-state-icon" aria-hidden="true">🌱</span>
-            <h3>Add quests to start your journey.</h3>
-            <p>Pick one small thing you would love to make time for.</p>
-            <button className="button button--primary" type="button" onClick={openCreateModal}>
-              Add your first quest
-            </button>
-          </div>
-        ) : (
-          <ul className="quest-list" aria-label="Your quests">
-            {questState.quests.map((quest) => (
-              <li key={quest.id}>
-                <QuestCard
-                  quest={quest}
-                  isCompleted={quest.completionDates.includes(today)}
-                  onToggle={() => toggleQuestCompletion(quest.id)}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <QuestList
+          quests={questState.quests}
+          today={today}
+          onCreate={openCreateModal}
+          onToggle={toggleQuestCompletion}
+        />
       </section>
 
       <footer className="home-footer">
