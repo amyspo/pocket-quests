@@ -4,6 +4,7 @@ import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
 import { sampleQuests } from './data/sampleQuests.js'
 import './App.css'
+import sparkle from './assets/icons/OneSparkle.png'
 
 const STORAGE_KEY = 'pocket-quests'
 const MAX_DAILY_GOAL = 5
@@ -205,7 +206,7 @@ function App() {
     <main className="home-screen">
       <header className="top-bar">
         <a className="wordmark" href="/" aria-label="Pocket Quests home">
-          <span className="wordmark-icon" aria-hidden="true">✦</span>
+          <img src={sparkle} className="wordmark-sparkle" alt="" />
           pocket quests
         </a>
         <span className="top-bar-note">A little progress goes a long way</span>
