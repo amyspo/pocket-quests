@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import QuestCard from './components/QuestCard.jsx'
 import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
+import ProgressPanel from './components/ProgressPanel.jsx'
 import {
   getLocalDateKey,
   loadInitialState,
@@ -12,8 +13,6 @@ import './App.css'
 import star from './assets/icons/Star.png'
 import threeSparkles from './assets/icons/ThreeSparkles.png'
 import sparkle from './assets/icons/OneSparkle.png'
-
-const MAX_DAILY_GOAL = 5
 
 function App() {
   // Passing the function lets React call it only for the initial state.
@@ -62,12 +61,6 @@ function App() {
   }, [questState.dayKey])
 
   const today = getLocalDateKey()
-  const dailyGoal = Math.min(questState.quests.length, MAX_DAILY_GOAL)
-  const completedToday = questState.quests.filter((quest) =>
-    quest.completionDates.includes(today),
-  ).length
-  const displayedProgress = Math.min(completedToday, dailyGoal)
-  const goalReached = dailyGoal > 0 && displayedProgress === dailyGoal
 
   function toggleQuestCompletion(questId) {
     setQuestState((currentState) => ({
@@ -159,36 +152,7 @@ function App() {
         <img src={threeSparkles} className="welcome-sparkles" alt="" />
       </section>
 
-      <section className="progress-panel" aria-labelledby="progress-heading">
-        <div className="progress-copy">
-          <div>
-            <p className="eyebrow" id="progress-heading">TODAY&apos;S JOURNEY</p>
-            <p className="progress-count">
-              <strong>{displayedProgress}</strong> of {dailyGoal} quests completed
-            </p>
-          </div>
-          <p className={`progress-message${goalReached ? ' progress-message--complete' : ''}`}>
-            {goalReached
-              ? 'Lovely work — you did it! ✨'
-              : displayedProgress === 0
-                ? 'Ready when you are.'
-                : 'Every little step counts.'}
-          </p>
-        </div>
-        <div
-          className="progress-track"
-          role="progressbar"
-          aria-label="Quests completed today"
-          aria-valuemin="0"
-          aria-valuemax={dailyGoal}
-          aria-valuenow={displayedProgress}
-        >
-          <span
-            className="progress-fill"
-            style={{ width: `${dailyGoal ? (displayedProgress / dailyGoal) * 100 : 0}%` }}
-          />
-        </div>
-      </section>
+      <ProgressPanel quests={questState.quests} today={today} />
 
       <section className="quest-section" aria-labelledby="quests-heading">
         <div className="section-heading">
