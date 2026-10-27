@@ -7,7 +7,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --heading: 'Nunito', 'Trebuchet MS', sans-serif;
+  --heading: "Press Start 2P", system-ui;
 }
 
 * {
