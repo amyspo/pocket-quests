@@ -97,7 +97,7 @@
 
 .welcome h1 {
   margin: 0;
-  color: var(--color-green-dark);
+  color: var(--color-text);
   font-family: var(--heading);
   font-size: clamp(32px, 5vw, 43px);
   font-weight: 650;
@@ -241,37 +241,24 @@
 
 .button {
   min-height: 42px;
-  padding: 0 16px;
-  border: 1px solid transparent;
-  border-radius: 12px;
+  background-color: var(--page-background);
+
+  border: 16px solid transparent;
+  border-image-source: url("./assets/icons/SimpleCroppedButton.png");
+  border-image-slice: 100 fill;
+  border-image-width: 6px;
+  border-image-repeat: stretch;
+
   cursor: pointer;
   font: inherit;
   font-size: 13px;
   font-weight: 650;
-  transition: background-color 150ms ease, transform 150ms ease;
+
+  transition: transform 150ms ease;
 }
 
-.button:active {
-  transform: translateY(1px);
-}
-
-.button--primary {
-  color: var(--color-green-light);
-  background: var(--color-green);
-}
-
-.button--primary:hover {
-  background: var(--color-green-dark);
-}
-
-.button--quiet {
-  color: var(--color-text);
-  border-color: var(--color-lines);
-  background: var(--color-background);
-}
-
-.button--quiet:hover {
-  background: var(--color-lines);
+.button:hover {
+  filter: brightness(1.1);
 }
 
 .quest-list {
