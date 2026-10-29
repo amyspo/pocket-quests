@@ -12,7 +12,7 @@ import {
   sortQuestsByProgress,
 } from './utils/questState.js'
 import './App.css'
-import star from './assets/icons/Star.png'
+import logo from './assets/icons/Logo.png'
 
 function App() {
   // Passing the function lets React call it only for the initial state.
@@ -135,7 +135,7 @@ function App() {
     <main className="home-screen">
       <header className="top-bar">
         <a className="wordmark" href="/" aria-label="Pocket Quests home">
-          <img src={star} className="wordmark-star" alt="" />
+          <img src={logo} className="wordmark-logo" alt="Pocket Quests logo" />
           pocket quests
         </a>
         <span className="top-bar-note">A little progress goes a long way</span>

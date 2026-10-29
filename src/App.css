@@ -51,9 +51,9 @@
   text-decoration: none;
 }
 
-.wordmark-star {
-  width: 24px;
-  height: 24px;
+.wordmark-logo {
+  width: 30px;
+  height: 30;
   image-rendering: pixelated;
   align-self: flex-start;
   margin-top: 4px;
