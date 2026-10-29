@@ -242,6 +242,7 @@
 .button {
   min-height: 42px;
   background-color: var(--page-background);
+  color: var(--color-text);
 
   border: 16px solid transparent;
   border-image-source: url("./assets/icons/SimpleCroppedButton.png");
