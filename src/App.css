@@ -39,21 +39,9 @@
   border-bottom: 1px solid var(--color-lines);
 }
 
-.wordmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--color-text);
-  font-family: var(--heading);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  text-decoration: none;
-}
-
-.wordmark-logo {
-  width: 30px;
-  height: 30;
+.wordmark img{
+  width: 50%;
+  height: 50%;
   image-rendering: pixelated;
   align-self: flex-start;
   margin-top: 4px;
