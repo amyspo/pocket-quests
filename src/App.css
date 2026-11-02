@@ -40,8 +40,8 @@
 }
 
 .wordmark img{
-  width: 50%;
-  height: 50%;
+  width: 9.5rem;
+  height: 3rem;
   image-rendering: pixelated;
   align-self: flex-start;
   margin-top: 4px;
