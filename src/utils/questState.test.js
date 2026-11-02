@@ -1,6 +1,15 @@
-import { describe, it, expect } from "vitest";
-import { getLocalDateKey } from "./questState.js";
-import { sortQuestsByProgress } from "./questState.js";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { sampleQuests } from "../data/sampleQuests.js";
+import {
+  getLocalDateKey,
+  loadInitialState,
+  sortQuestsByProgress,
+  STORAGE_KEY,
+} from "./questState.js";
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe("getLocalDateKey", () => {
   it("takes a date and returns a string", () => {
@@ -52,5 +61,25 @@ describe("sortQuestsByProgress", () => {
     sortQuestsByProgress(quests);
 
     expect(quests.map((quest) => quest.name)).toEqual(originalOrder);
+  });
+});
+
+describe("loadInitialState", () => {
+  it("uses sorted sample quests when there is no saved state", () => {
+    const getItem = vi.fn().mockReturnValue(null);
+    vi.stubGlobal("localStorage", { getItem });
+
+    const state = loadInitialState();
+
+    expect(getItem).toHaveBeenCalledWith(STORAGE_KEY);
+    expect(state.dayKey).toBe(getLocalDateKey());
+    expect(state.quests.map((quest) => quest.id)).toEqual(
+      sortQuestsByProgress(sampleQuests).map((quest) => quest.id),
+    );
+    expect(state.quests).not.toBe(sampleQuests);
+    expect(state.quests[0].completionDates).not.toBe(
+      sampleQuests.find((quest) => quest.id === state.quests[0].id)
+        .completionDates,
+    );
   });
 });
