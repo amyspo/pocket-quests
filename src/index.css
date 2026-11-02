@@ -27,7 +27,7 @@ input {
 
 button:focus-visible,
 a:focus-visible {
-  outline: 3px solid #b59ac9;
+  outline: 3px solid #d9bc81;
   outline-offset: 3px;
 }
 
