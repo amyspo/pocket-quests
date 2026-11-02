@@ -232,7 +232,7 @@
   gap: 8px;
 }
 
-.button {
+button {
   min-height: 42px;
   background-color: var(--page-background);
   color: var(--color-text);
@@ -251,8 +251,14 @@
   transition: transform 150ms ease;
 }
 
-.button:hover {
-  filter: brightness(1.1);
+button:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  button:hover {
+    filter: brightness(1.1);
+  }
 }
 
 .quest-list {
