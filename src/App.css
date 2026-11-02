@@ -251,13 +251,9 @@
 }
 
 .quest-list {
-  max-height: max(280px, calc(100svh - 485px));
-  min-height: 110px;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
   list-style: none;
-  overscroll-behavior: contain;
 }
 
 .quest-list li + li {
@@ -628,10 +624,6 @@
 
   .section-actions .button {
     flex: 1;
-  }
-
-  .quest-list {
-    max-height: max(260px, calc(100svh - 465px));
   }
 
   .quest-card {

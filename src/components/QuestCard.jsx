@@ -17,6 +17,7 @@ function QuestCard({ quest, isCompleted, onToggle }) {
         isCompleted ? 'quest-card--completed' : '',
         isAnimating ? 'quest-card--animating' : '',
       ].filter(Boolean).join(' ')}
+      onClick={handleToggle}
       onAnimationEnd={() => setIsAnimating(false)}
     >
       <span className="quest-emoji" aria-hidden="true">{quest.emoji}</span>
@@ -31,7 +32,6 @@ function QuestCard({ quest, isCompleted, onToggle }) {
       <button
         className="quest-complete-button"
         type="button"
-        onClick={handleToggle}
         aria-pressed={isCompleted}
         aria-label={`${isCompleted ? 'Undo today’s completion of' : 'Complete'} ${quest.name}`}
       >
