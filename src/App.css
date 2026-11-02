@@ -8,20 +8,10 @@
   --color-green-dark: #1e2c1a;
   --color-green: #687561;
   --color-green-light: #e2edde;
-
   --color-accent-yellow: #d9bc81;
-  --color-accent-rose: #c1a9b6;
-  --color-accent-blue: #86a2b9;
-  --color-accent-blue-dark: #51687b;
 }
 
 .home-screen {
-  --ink: #423d50;
-  --muted: #827c90;
-  --plum: #735a92;
-  --plum-dark: #5a4377;
-  --lavender: #eee8f6;
-  --line: #e9e3ed;
   --paper: #fffdfb;
 
   width: min(100% - 40px, 820px);
@@ -39,11 +29,10 @@
   border-bottom: 1px solid var(--color-lines);
 }
 
-.wordmark img{
+.wordmark img {
   width: 9.5rem;
   height: 3rem;
   image-rendering: pixelated;
-  align-self: flex-start;
   margin-top: 4px;
 }
 
@@ -56,7 +45,6 @@
   min-height: 210px;
   padding: 38px 42px;
   margin-top: 28px;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,17 +63,6 @@
   font-size: 10px;
   font-weight: 750;
   letter-spacing: 1.5px;
-  
-}
-
-.eyebrow-sparkle {
-  width: 16px;
-  height: 16px;
-  image-rendering: pixelated;
-  display: grid;
-  place-items: center;
-  position: relative;
-  
 }
 
 .welcome h1 {
@@ -115,30 +92,6 @@
   width: 64px;
   height: 64px;
   margin-right: 5%;
-  color: var(--color-accent-yellow);
-  display: grid;
-  place-items: center;
-  font-size: 55px;
-  position: relative;
-}
-
-.welcome-sparkle::before,
-.welcome-sparkle::after {
-  content: '✦';
-  color: var(--color-accent-blue);
-  position: absolute;
-  font-size: 15px;
-}
-
-.welcome-sparkle::before {
-  top: 4px;
-  right: 8px;
-}
-
-.welcome-sparkle::after {
-  left: 7px;
-  bottom: 17px;
-  font-size: 10px;
 }
 
 .progress-panel {
@@ -244,7 +197,6 @@ button {
   border-image-repeat: stretch;
 
   cursor: pointer;
-  font: inherit;
   font-size: 13px;
   font-weight: 650;
 
@@ -280,7 +232,6 @@ button:active {
   display: flex;
   align-items: center;
   gap: 15px;
-  box-sizing: border-box;
   transition: background-color 180ms ease, border-color 180ms ease;
 }
 
@@ -412,7 +363,6 @@ button:active {
   border-radius: 22px;
   background: var(--paper);
   box-shadow: 0 20px 70px rgba(50, 34, 22, 0.2);
-  box-sizing: border-box;
   position: relative;
 }
 
@@ -465,7 +415,6 @@ button:active {
   border-radius: 10px;
   color: var(--color-text);
   background: var(--paper);
-  font: inherit;
   font-size: 16px;
 }
 
@@ -589,14 +538,6 @@ button:active {
     min-height: 190px;
     padding: 15px 23px;
     margin-top: 10px;
-  }
-
-  .welcome-sparkle {
-    width: 82px;
-    height: 82px;
-    margin-right: 0;
-    flex: 0 0 82px;
-    font-size: 36px;
   }
 
   .welcome-description {
