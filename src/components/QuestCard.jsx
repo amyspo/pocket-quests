@@ -25,8 +25,8 @@ function QuestCard({ quest, isCompleted, onToggle }) {
         <span className="quest-name">{quest.name}</span>
         <span className="quest-progress">
           {quest.completionDates.length === 1
-            ? '1 little win so far'
-            : `${quest.completionDates.length} little wins so far`}
+            ? '1 quest completed'
+            : `${quest.completionDates.length} quests completed`}
         </span>
       </span>
       <button

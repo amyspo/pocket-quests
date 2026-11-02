@@ -1,11 +1,11 @@
-import sparkle from '../assets/icons/OneSparkle.png'
+import sparkle from "../assets/icons/OneSparkle.png";
 
 function QuestSectionHeader({ onManage, onCreate }) {
   return (
     <div className="section-heading">
       <div>
         <p className="eyebrow">YOUR ADVENTURES</p>
-        <h2 id="quests-heading">Quest board <img src={sparkle} className="eyebrow-sparkle" alt="" /></h2>
+        <h2 id="quests-heading">Quest board</h2>
       </div>
       <div className="section-actions">
         <button
@@ -15,12 +15,16 @@ function QuestSectionHeader({ onManage, onCreate }) {
         >
           Manage
         </button>
-        <button className="button button--primary" type="button" onClick={onCreate}>
+        <button
+          className="button button--primary"
+          type="button"
+          onClick={onCreate}
+        >
           <span aria-hidden="true">+</span> New quest
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default QuestSectionHeader
+export default QuestSectionHeader;
