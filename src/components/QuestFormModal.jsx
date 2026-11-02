@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import useModalKeyboard from '../hooks/useModalKeyboard.js'
 
 const EMOJI_OPTIONS = ['📖', '🎨', '🌿', '🧘', '🎸', '🚶', '🧁', '🧩', '✨', '☕']
 
 function QuestFormModal({ quest, onClose, onSave }) {
   const [name, setName] = useState(quest?.name ?? '')
   const [emoji, setEmoji] = useState(quest?.emoji ?? EMOJI_OPTIONS[0])
+  const dialogRef = useModalKeyboard(onClose)
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -24,6 +26,8 @@ function QuestFormModal({ quest, onClose, onSave }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="quest-form-heading"
+        ref={dialogRef}
+        tabIndex="-1"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <button className="modal-close" type="button" onClick={onClose} aria-label="Close">

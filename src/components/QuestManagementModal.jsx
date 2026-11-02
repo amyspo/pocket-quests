@@ -1,4 +1,8 @@
+import useModalKeyboard from '../hooks/useModalKeyboard.js'
+
 function QuestManagementModal({ quests, onClose, onDelete, onEdit }) {
+  const dialogRef = useModalKeyboard(onClose)
+
   function handleDelete(quest) {
     const confirmed = window.confirm(
       `Delete "${quest.name}"? Its completion history will be permanently lost.`,
@@ -16,6 +20,8 @@ function QuestManagementModal({ quests, onClose, onDelete, onEdit }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="management-heading"
+        ref={dialogRef}
+        tabIndex="-1"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <button className="modal-close" type="button" onClick={onClose} aria-label="Close">

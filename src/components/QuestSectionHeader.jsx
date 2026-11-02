@@ -1,5 +1,3 @@
-import sparkle from "../assets/icons/OneSparkle.png";
-
 function QuestSectionHeader({ onManage, onCreate }) {
   return (
     <div className="section-heading">

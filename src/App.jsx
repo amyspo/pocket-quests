@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QuestFormModal from './components/QuestFormModal.jsx'
 import QuestManagementModal from './components/QuestManagementModal.jsx'
 import ProgressPanel from './components/ProgressPanel.jsx'
@@ -19,6 +19,14 @@ function App() {
   const [questState, setQuestState] = useState(loadInitialState)
   const [activeModal, setActiveModal] = useState(null)
   const [editingQuest, setEditingQuest] = useState(null)
+  const modalOpenerRef = useRef(null)
+
+  useEffect(() => {
+    if (activeModal === null && modalOpenerRef.current?.isConnected) {
+      modalOpenerRef.current.focus()
+      modalOpenerRef.current = null
+    }
+  }, [activeModal])
 
   useEffect(() => {
     try {
@@ -117,8 +125,16 @@ function App() {
   }
 
   function openCreateModal() {
+    if (activeModal === null) {
+      modalOpenerRef.current = document.activeElement
+    }
     setEditingQuest(null)
     setActiveModal('create')
+  }
+
+  function openManageModal() {
+    modalOpenerRef.current = document.activeElement
+    setActiveModal('manage')
   }
 
   function openEditModal(quest) {
@@ -146,7 +162,7 @@ function App() {
 
       <section className="quest-section" aria-labelledby="quests-heading">
         <QuestSectionHeader
-          onManage={() => setActiveModal('manage')}
+          onManage={openManageModal}
           onCreate={openCreateModal}
         />
 
