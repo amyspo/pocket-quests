@@ -5,21 +5,22 @@ import ProgressPanel from './components/ProgressPanel.jsx'
 import QuestList from './components/QuestList.jsx'
 import QuestSectionHeader from './components/QuestSectionHeader.jsx'
 import WelcomeSection from './components/WelcomeSection.jsx'
-import {
-  getLocalDateKey,
-  loadInitialState,
-  STORAGE_KEY,
-  sortQuestsByProgress,
-} from './utils/questState.js'
+import useQuests from './hooks/useQuests.js'
 import './App.css'
 import logo from './assets/icons/LogoName.png'
 
 function App() {
-  // Passing the function lets React call it only for the initial state.
-  const [questState, setQuestState] = useState(loadInitialState)
   const [activeModal, setActiveModal] = useState(null)
   const [editingQuest, setEditingQuest] = useState(null)
   const modalOpenerRef = useRef(null)
+  const {
+    quests,
+    today,
+    addQuest,
+    editQuest,
+    deleteQuest,
+    toggleQuestCompletion,
+  } = useQuests()
 
   useEffect(() => {
     if (activeModal === null && modalOpenerRef.current?.isConnected) {
@@ -28,100 +29,14 @@ function App() {
     }
   }, [activeModal])
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(questState))
-    } catch (error) {
-      console.error('Could not save quests to this browser.', error)
-    }
-  }, [questState])
-
-  useEffect(() => {
-    function refreshOrderForNewDay() {
-      const today = getLocalDateKey()
-
-      setQuestState((currentState) => {
-        if (currentState.dayKey === today) {
-          return currentState
-        }
-
-        return {
-          dayKey: today,
-          quests: sortQuestsByProgress(currentState.quests),
-        }
-      })
-    }
-
-    const now = new Date()
-    const nextMidnight = new Date(now)
-    nextMidnight.setHours(24, 0, 0, 0)
-
-    window.addEventListener('focus', refreshOrderForNewDay)
-    const midnightTimeout = window.setTimeout(
-      refreshOrderForNewDay,
-      nextMidnight.getTime() - now.getTime(),
-    )
-
-    return () => {
-      window.removeEventListener('focus', refreshOrderForNewDay)
-      window.clearTimeout(midnightTimeout)
-    }
-  }, [questState.dayKey])
-
-  const today = getLocalDateKey()
-
-  function toggleQuestCompletion(questId) {
-    setQuestState((currentState) => ({
-      ...currentState,
-      quests: currentState.quests.map((quest) => {
-        if (quest.id !== questId) {
-          return quest
-        }
-
-        const isCompletedToday = quest.completionDates.includes(today)
-        const completionDates = isCompletedToday
-          ? quest.completionDates.filter((date) => date !== today)
-          : [...quest.completionDates, today]
-
-        return { ...quest, completionDates }
-      }),
-    }))
-  }
-
   function saveQuest(questDetails) {
-    setQuestState((currentState) => {
-      if (editingQuest) {
-        return {
-          ...currentState,
-          quests: currentState.quests.map((quest) =>
-            quest.id === editingQuest.id
-              ? { ...quest, ...questDetails }
-              : quest,
-          ),
-        }
-      }
-
-      return {
-        ...currentState,
-        quests: [
-          ...currentState.quests,
-          {
-            id: crypto.randomUUID(),
-            ...questDetails,
-            completionDates: [],
-          },
-        ],
-      }
-    })
+    if (editingQuest) {
+      editQuest(editingQuest.id, questDetails)
+    } else {
+      addQuest(questDetails)
+    }
     setEditingQuest(null)
     setActiveModal(null)
-  }
-
-  function deleteQuest(questId) {
-    setQuestState((currentState) => ({
-      ...currentState,
-      quests: currentState.quests.filter((quest) => quest.id !== questId),
-    }))
   }
 
   function openCreateModal() {
@@ -158,7 +73,7 @@ function App() {
 
       <WelcomeSection />
 
-      <ProgressPanel quests={questState.quests} today={today} />
+      <ProgressPanel quests={quests} today={today} />
 
       <section className="quest-section" aria-labelledby="quests-heading">
         <QuestSectionHeader
@@ -167,7 +82,7 @@ function App() {
         />
 
         <QuestList
-          quests={questState.quests}
+          quests={quests}
           today={today}
           onCreate={openCreateModal}
           onToggle={toggleQuestCompletion}
@@ -187,7 +102,7 @@ function App() {
       )}
       {activeModal === 'manage' && (
         <QuestManagementModal
-          quests={questState.quests}
+          quests={quests}
           onClose={closeModal}
           onDelete={deleteQuest}
           onEdit={openEditModal}
