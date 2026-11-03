@@ -106,6 +106,7 @@ describe("useQuests", () => {
     const harness = renderUseQuests();
 
     act(() => {
+      harness.value.setDailyGoal(7);
       harness.value.addQuest({
         name: "Stretch for five minutes",
         emoji: "🧘",
@@ -113,6 +114,7 @@ describe("useQuests", () => {
     });
 
     const savedState = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
+    expect(savedState.dailyGoal).toBe(7);
     expect(savedState.quests).toContainEqual(
       expect.objectContaining({
         id: "quest-test-id",
@@ -126,7 +128,16 @@ describe("useQuests", () => {
     const reloadedHarness = renderUseQuests();
 
     expect(reloadedHarness.value.quests).toEqual(savedState.quests);
+    expect(reloadedHarness.value.dailyGoal).toBe(7);
 
     reloadedHarness.unmount();
+  });
+
+  it("rejects daily goals outside the supported range", () => {
+    const harness = renderUseQuests();
+
+    expect(() => harness.value.setDailyGoal(11)).toThrow(RangeError);
+
+    harness.unmount();
   });
 });

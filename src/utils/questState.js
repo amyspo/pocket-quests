@@ -1,6 +1,9 @@
 import { sampleQuests } from "../data/sampleQuests.js";
 
 export const STORAGE_KEY = "pocket-quests";
+export const DEFAULT_DAILY_GOAL = 5;
+export const MIN_DAILY_GOAL = 1;
+export const MAX_DAILY_GOAL = 10;
 
 export function getLocalDateKey(date = new Date()) {
   const year = date.getFullYear();
@@ -49,6 +52,7 @@ export function loadInitialState() {
       return {
         dayKey: today,
         quests: sortQuestsByProgress(copySampleQuests()),
+        dailyGoal: DEFAULT_DAILY_GOAL,
       };
     }
 
@@ -58,7 +62,11 @@ export function loadInitialState() {
       !parsedState ||
       typeof parsedState.dayKey !== "string" ||
       !Array.isArray(parsedState.quests) ||
-      !parsedState.quests.every(isValidQuest)
+      !parsedState.quests.every(isValidQuest) ||
+      (parsedState.dailyGoal !== undefined &&
+        (!Number.isInteger(parsedState.dailyGoal) ||
+          parsedState.dailyGoal < MIN_DAILY_GOAL ||
+          parsedState.dailyGoal > MAX_DAILY_GOAL))
     ) {
       throw new Error("Saved quest data has an unexpected format.");
     }
@@ -68,12 +76,20 @@ export function loadInitialState() {
         ? parsedState.quests
         : sortQuestsByProgress(parsedState.quests);
 
-    return { dayKey: today, quests };
+    return {
+      dayKey: today,
+      quests,
+      dailyGoal: parsedState.dailyGoal ?? DEFAULT_DAILY_GOAL,
+    };
   } catch (error) {
     console.error(
       "Could not load saved quests. Starting with sample quests.",
       error,
     );
-    return { dayKey: today, quests: sortQuestsByProgress(copySampleQuests()) };
+    return {
+      dayKey: today,
+      quests: sortQuestsByProgress(copySampleQuests()),
+      dailyGoal: DEFAULT_DAILY_GOAL,
+    };
   }
 }

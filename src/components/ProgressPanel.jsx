@@ -1,14 +1,12 @@
 import { useState } from 'react'
 
-const MAX_DAILY_GOAL = 5
-
-function ProgressPanel({ quests, today }) {
-  const dailyGoal = Math.min(quests.length, MAX_DAILY_GOAL)
+function ProgressPanel({ quests, today, dailyGoal }) {
+  const displayedGoal = Math.min(quests.length, dailyGoal)
   const completedToday = quests.filter((quest) =>
     quest.completionDates.includes(today),
   ).length
-  const displayedProgress = Math.min(completedToday, dailyGoal)
-  const goalReached = dailyGoal > 0 && displayedProgress === dailyGoal
+  const displayedProgress = Math.min(completedToday, displayedGoal)
+  const goalReached = displayedGoal > 0 && displayedProgress === displayedGoal
 
   return (
     <section className="progress-panel" aria-labelledby="progress-heading">
@@ -16,7 +14,7 @@ function ProgressPanel({ quests, today }) {
         <div>
           <p className="eyebrow" id="progress-heading">TODAY&apos;S JOURNEY</p>
           <p className="progress-count">
-            <strong>{displayedProgress}</strong> of {dailyGoal} quests completed
+            <strong>{displayedProgress}</strong> of {displayedGoal} quests completed
           </p>
         </div>
         <p className={`progress-message${goalReached ? ' progress-message--complete' : ''}`}>
@@ -32,12 +30,12 @@ function ProgressPanel({ quests, today }) {
         role="progressbar"
         aria-label="Quests completed today"
         aria-valuemin="0"
-        aria-valuemax={dailyGoal}
+        aria-valuemax={displayedGoal}
         aria-valuenow={displayedProgress}
       >
         <span
           className="progress-fill"
-            style={{ width: `${dailyGoal ? (displayedProgress / dailyGoal) * 100 : 0}%` }}
+            style={{ width: `${displayedGoal ? (displayedProgress / displayedGoal) * 100 : 0}%` }}
         />
       </div>
       {goalReached && <GoalReachedMessage />}

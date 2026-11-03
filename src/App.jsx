@@ -15,10 +15,12 @@ function App() {
   const modalOpenerRef = useRef(null)
   const {
     quests,
+    dailyGoal,
     today,
     addQuest,
     editQuest,
     deleteQuest,
+    setDailyGoal,
     toggleQuestCompletion,
   } = useQuests()
 
@@ -73,7 +75,7 @@ function App() {
 
       <WelcomeSection />
 
-      <ProgressPanel quests={quests} today={today} />
+      <ProgressPanel quests={quests} today={today} dailyGoal={dailyGoal} />
 
       <section className="quest-section" aria-labelledby="quests-heading">
         <QuestSectionHeader
@@ -106,6 +108,8 @@ function App() {
           onClose={closeModal}
           onDelete={deleteQuest}
           onEdit={openEditModal}
+          dailyGoal={dailyGoal}
+          onDailyGoalChange={setDailyGoal}
         />
       )}
     </main>

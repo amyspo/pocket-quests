@@ -506,6 +506,28 @@ button:active {
   list-style: none;
 }
 
+.management-goal {
+  padding: 14px 0;
+  border-top: 1px solid var(--color-lines);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.management-goal select {
+  min-width: 150px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-lines);
+  border-radius: 9px;
+  color: var(--color-text);
+  background: var(--paper);
+  font: inherit;
+}
+
 .management-row {
   min-height: 52px;
   border-top: 1px solid var(--color-lines);

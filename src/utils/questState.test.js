@@ -73,6 +73,7 @@ describe("loadInitialState", () => {
 
     expect(getItem).toHaveBeenCalledWith(STORAGE_KEY);
     expect(state.dayKey).toBe(getLocalDateKey());
+    expect(state.dailyGoal).toBe(5);
     expect(state.quests.map((quest) => quest.id)).toEqual(
       sortQuestsByProgress(sampleQuests).map((quest) => quest.id),
     );
@@ -81,5 +82,30 @@ describe("loadInitialState", () => {
       sampleQuests.find((quest) => quest.id === state.quests[0].id)
         .completionDates,
     );
+  });
+
+  it("uses the default daily goal for saved data created before the setting existed", () => {
+    const savedState = {
+      dayKey: getLocalDateKey(),
+      quests: sampleQuests,
+    };
+    vi.stubGlobal("localStorage", {
+      getItem: vi.fn().mockReturnValue(JSON.stringify(savedState)),
+    });
+
+    expect(loadInitialState().dailyGoal).toBe(5);
+  });
+
+  it("restores a saved daily goal", () => {
+    const savedState = {
+      dayKey: getLocalDateKey(),
+      quests: sampleQuests,
+      dailyGoal: 8,
+    };
+    vi.stubGlobal("localStorage", {
+      getItem: vi.fn().mockReturnValue(JSON.stringify(savedState)),
+    });
+
+    expect(loadInitialState().dailyGoal).toBe(8);
   });
 });

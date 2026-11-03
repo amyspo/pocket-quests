@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import {
   getLocalDateKey,
   loadInitialState,
+  MAX_DAILY_GOAL,
+  MIN_DAILY_GOAL,
   sortQuestsByProgress,
   STORAGE_KEY,
 } from '../utils/questState.js'
@@ -102,12 +104,28 @@ function useQuests() {
     }))
   }
 
+  function setDailyGoal(dailyGoal) {
+    if (
+      !Number.isInteger(dailyGoal) ||
+      dailyGoal < MIN_DAILY_GOAL ||
+      dailyGoal > MAX_DAILY_GOAL
+    ) {
+      throw new RangeError(
+        `Daily goal must be a whole number between ${MIN_DAILY_GOAL} and ${MAX_DAILY_GOAL}.`,
+      )
+    }
+
+    setQuestState((currentState) => ({ ...currentState, dailyGoal }))
+  }
+
   return {
     quests: questState.quests,
+    dailyGoal: questState.dailyGoal,
     today,
     addQuest,
     editQuest,
     deleteQuest,
+    setDailyGoal,
     toggleQuestCompletion,
   }
 }

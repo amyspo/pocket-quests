@@ -1,6 +1,17 @@
+import {
+  MAX_DAILY_GOAL,
+  MIN_DAILY_GOAL,
+} from '../utils/questState.js'
 import useModalKeyboard from '../hooks/useModalKeyboard.js'
 
-function QuestManagementModal({ quests, onClose, onDelete, onEdit }) {
+function QuestManagementModal({
+  quests,
+  dailyGoal,
+  onClose,
+  onDailyGoalChange,
+  onDelete,
+  onEdit,
+}) {
   const dialogRef = useModalKeyboard(onClose)
 
   function handleDelete(quest) {
@@ -30,6 +41,24 @@ function QuestManagementModal({ quests, onClose, onDelete, onEdit }) {
         <p className="eyebrow">YOUR QUEST JOURNAL</p>
         <h2 id="management-heading">Manage quests</h2>
         <p className="modal-description">Edit a quest or remove one you no longer need.</p>
+        <div className="management-goal">
+          <label htmlFor="daily-goal">Daily goal</label>
+          <select
+            id="daily-goal"
+            value={dailyGoal}
+            onChange={(event) => onDailyGoalChange(Number(event.target.value))}
+          >
+            {Array.from(
+              { length: MAX_DAILY_GOAL - MIN_DAILY_GOAL + 1 },
+              (_, index) => MIN_DAILY_GOAL + index,
+            ).map((goal) => (
+              <option key={goal} value={goal}>
+                {goal} {goal === 1 ? 'quest' : 'quests'}
+                {goal === 5 ? ' (recommended)' : ''}
+              </option>
+            ))}
+          </select>
+        </div>
         {quests.length === 0 ? (
           <p className="management-empty">There are no quests to manage just yet.</p>
         ) : (
