@@ -33,7 +33,7 @@ The project may receive further visual refinements, but future development will 
 - Responsive, mobile-first design for phones and desktops.
 - Visual feedback for completed quests.
 
-### Future Ideas
+## Future Ideas
 - Onboarding with hobby categories and suggested quests.
 - Streaks and collectible achievement badges.
 - Quest cards that evolve as progress builds.
@@ -46,7 +46,3 @@ The project may receive further visual refinements, but future development will 
 Pocket Quests is being built as a learning project with an emphasis on understanding the code, keeping the implementation simple, and introducing complexity only when it adds value.
 
 The goal is to build a useful, enjoyable core experience first and expand it gradually.
-
----
-
-*Pocket Quests is a work in progress.*

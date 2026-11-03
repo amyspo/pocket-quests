@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const MAX_DAILY_GOAL = 5
 
 function ProgressPanel({ quests, today }) {
@@ -35,10 +37,32 @@ function ProgressPanel({ quests, today }) {
       >
         <span
           className="progress-fill"
-          style={{ width: `${dailyGoal ? (displayedProgress / dailyGoal) * 100 : 0}%` }}
+            style={{ width: `${dailyGoal ? (displayedProgress / dailyGoal) * 100 : 0}%` }}
         />
       </div>
+      {goalReached && <GoalReachedMessage />}
     </section>
+  )
+}
+
+function GoalReachedMessage() {
+  const [isDismissed, setIsDismissed] = useState(false)
+
+  if (isDismissed) {
+    return null
+  }
+
+  return (
+    <aside className="goal-reached-message" role="status" aria-live="polite">
+      <span>Lovely work — you reached your daily goal! ✨</span>
+      <button
+        className="goal-reached-dismiss"
+        type="button"
+        onClick={() => setIsDismissed(true)}
+      >
+        Got it
+      </button>
+    </aside>
   )
 }
 
