@@ -192,7 +192,7 @@ button {
 
   border: 16px solid transparent;
   border-image-source: url("./assets/icons/SimpleCroppedButton.png");
-  border-image-slice: 100 fill;
+  border-image-slice: 130 fill;
   border-image-width: 6px;
   border-image-repeat: stretch;
 
