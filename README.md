@@ -20,17 +20,18 @@ Pocket Quests aims to encourage small, regular efforts through a playful experie
 
 ## 🚧 Project Status
 
-Pocket Quests is currently in the initial setup phase. The project is being developed incrementally, starting with a simple quest journal before introducing more advanced game mechanics.
+The MVP of Pocket Quests is complete. The core functionality is implemented and working well.
 
-## 🗺️ Planned Features
+The project may receive further visual refinements, but future development will focus on optional enhancements rather than essential MVP features.
 
-### MVP
+## ✨ Implemented Features
+
 - Create, view, edit, and delete reusable quests.
 - Complete quests with one tap.
 - Track completion history and basic progress.
-- Store data locally in the browser.
+- Store quests and completion history locally in the browser.
 - Responsive, mobile-first design for phones and desktops.
-- Simple visual feedback for completed quests.
+- Visual feedback for completed quests.
 
 ### Future Ideas
 - Onboarding with hobby categories and suggested quests.
