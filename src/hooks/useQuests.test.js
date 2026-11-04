@@ -36,6 +36,29 @@ function renderUseQuests() {
   };
 }
 
+function setSystemDate(year, month, day) {
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(year, month - 1, day, 12));
+}
+
+function saveQuestState({ dayKey, quests, dailyGoal = 5, ...badgeState }) {
+  window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      dayKey,
+      quests,
+      dailyGoal,
+      ...badgeState,
+    }),
+  );
+}
+
+function focusApp() {
+  act(() => {
+    window.dispatchEvent(new Event("focus"));
+  });
+}
+
 beforeEach(() => {
   window.localStorage.clear();
   vi.stubGlobal("crypto", {
@@ -44,6 +67,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.unstubAllGlobals();
   document.body.innerHTML = "";
 });
@@ -115,6 +139,8 @@ describe("useQuests", () => {
 
     const savedState = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
     expect(savedState.dailyGoal).toBe(7);
+    expect(savedState.unlockedBadges).toEqual([]);
+    expect(savedState.goalMetDates).toEqual([]);
     expect(savedState.quests).toContainEqual(
       expect.objectContaining({
         id: "quest-test-id",
@@ -129,8 +155,162 @@ describe("useQuests", () => {
 
     expect(reloadedHarness.value.quests).toEqual(savedState.quests);
     expect(reloadedHarness.value.dailyGoal).toBe(7);
+    expect(reloadedHarness.value.unlockedBadges).toEqual([]);
+    expect(reloadedHarness.value.goalMetDates).toEqual([]);
 
     reloadedHarness.unmount();
+  });
+
+  it("counts repeated completions of the same quest on different days", () => {
+    setSystemDate(2026, 3, 1);
+    const quest = {
+      id: "quest-one",
+      name: "Read a chapter",
+      emoji: "📖",
+      completionDates: [],
+    };
+    saveQuestState({ dayKey: "2026-03-01", quests: [quest], dailyGoal: 5 });
+    const harness = renderUseQuests();
+
+    act(() => {
+      harness.value.toggleQuestCompletion(quest.id);
+    });
+
+    vi.setSystemTime(new Date(2026, 2, 2, 12));
+    focusApp();
+    act(() => {
+      harness.value.toggleQuestCompletion(quest.id);
+    });
+
+    const completedQuest = harness.value.quests[0];
+    expect(completedQuest.completionDates).toEqual([
+      "2026-03-01",
+      "2026-03-02",
+    ]);
+    expect(harness.value.unlockedBadges).toContain("first-steps");
+    expect(harness.value.goalMetDates).toEqual(["2026-03-01"]);
+
+    const savedState = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
+    expect(savedState.unlockedBadges).toContain("first-steps");
+    expect(savedState.goalMetDates).toEqual(["2026-03-01"]);
+
+    harness.unmount();
+    const reloadedHarness = renderUseQuests();
+    expect(reloadedHarness.value.unlockedBadges).toContain("first-steps");
+    expect(reloadedHarness.value.goalMetDates).toEqual(["2026-03-01"]);
+    reloadedHarness.unmount();
+  });
+
+  it("does not revoke a completion badge when a completion is undone", () => {
+    setSystemDate(2026, 3, 1);
+    const quest = {
+      id: "quest-one",
+      name: "Read a chapter",
+      emoji: "📖",
+      completionDates: [],
+    };
+    saveQuestState({ dayKey: "2026-03-01", quests: [quest] });
+    const harness = renderUseQuests();
+
+    act(() => {
+      harness.value.toggleQuestCompletion(quest.id);
+      harness.value.toggleQuestCompletion(quest.id);
+    });
+
+    expect(harness.value.quests[0].completionDates).toEqual([]);
+    expect(harness.value.unlockedBadges).toContain("first-steps");
+
+    harness.unmount();
+  });
+
+  it("evaluates a day once and skips inactive days during rollover", () => {
+    setSystemDate(2026, 3, 5);
+    const quest = {
+      id: "quest-one",
+      name: "Read a chapter",
+      emoji: "📖",
+      completionDates: ["2026-03-01"],
+    };
+    saveQuestState({ dayKey: "2026-03-01", quests: [quest], dailyGoal: 5 });
+    const harness = renderUseQuests();
+
+    focusApp();
+    expect(harness.value.goalMetDates).toEqual(["2026-03-01"]);
+    expect(harness.value.unlockedBadges).toContain("a-good-day");
+
+    focusApp();
+    expect(harness.value.goalMetDates).toEqual(["2026-03-01"]);
+    expect(
+      JSON.parse(window.localStorage.getItem(STORAGE_KEY)).dayKey,
+    ).toBe("2026-03-05");
+
+    harness.unmount();
+  });
+
+  it("does not change an evaluated day after the daily goal changes", () => {
+    setSystemDate(2026, 3, 2);
+    const quests = [
+      {
+        id: "quest-one",
+        name: "Read a chapter",
+        emoji: "📖",
+        completionDates: ["2026-03-01"],
+      },
+      {
+        id: "quest-two",
+        name: "Take a walk",
+        emoji: "🚶",
+        completionDates: [],
+      },
+    ];
+    saveQuestState({
+      dayKey: "2026-03-01",
+      quests,
+      dailyGoal: 2,
+    });
+    const harness = renderUseQuests();
+
+    focusApp();
+    expect(harness.value.goalMetDates).toEqual([]);
+
+    act(() => {
+      harness.value.setDailyGoal(1);
+    });
+    vi.setSystemTime(new Date(2026, 2, 3, 12));
+    focusApp();
+
+    expect(harness.value.goalMetDates).toEqual([]);
+    expect(
+      JSON.parse(window.localStorage.getItem(STORAGE_KEY)).dayKey,
+    ).toBe("2026-03-03");
+
+    harness.unmount();
+  });
+
+  it("preserves a successful evaluated day after the daily goal changes", () => {
+    setSystemDate(2026, 3, 2);
+    const quest = {
+      id: "quest-one",
+      name: "Read a chapter",
+      emoji: "📖",
+      completionDates: ["2026-03-01"],
+    };
+    saveQuestState({ dayKey: "2026-03-01", quests: [quest], dailyGoal: 5 });
+    const harness = renderUseQuests();
+
+    focusApp();
+    expect(harness.value.goalMetDates).toEqual(["2026-03-01"]);
+
+    act(() => {
+      harness.value.setDailyGoal(2);
+    });
+    vi.setSystemTime(new Date(2026, 2, 3, 12));
+    focusApp();
+
+    expect(harness.value.goalMetDates).toEqual(["2026-03-01"]);
+    expect(harness.value.unlockedBadges).toContain("a-good-day");
+
+    harness.unmount();
   });
 
   it("rejects daily goals outside the supported range", () => {

@@ -5,6 +5,13 @@ export const DEFAULT_DAILY_GOAL = 5;
 export const MIN_DAILY_GOAL = 1;
 export const MAX_DAILY_GOAL = 10;
 
+function getDefaultBadgeState() {
+  return {
+    unlockedBadges: [],
+    goalMetDates: [],
+  };
+}
+
 export function getLocalDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -53,6 +60,7 @@ export function loadInitialState() {
         dayKey: today,
         quests: sortQuestsByProgress(copySampleQuests()),
         dailyGoal: DEFAULT_DAILY_GOAL,
+        ...getDefaultBadgeState(),
       };
     }
 
@@ -63,6 +71,14 @@ export function loadInitialState() {
       typeof parsedState.dayKey !== "string" ||
       !Array.isArray(parsedState.quests) ||
       !parsedState.quests.every(isValidQuest) ||
+      (parsedState.unlockedBadges !== undefined &&
+        (!Array.isArray(parsedState.unlockedBadges) ||
+          !parsedState.unlockedBadges.every(
+            (badgeId) => typeof badgeId === "string",
+          ))) ||
+      (parsedState.goalMetDates !== undefined &&
+        (!Array.isArray(parsedState.goalMetDates) ||
+          !parsedState.goalMetDates.every((date) => typeof date === "string"))) ||
       (parsedState.dailyGoal !== undefined &&
         (!Number.isInteger(parsedState.dailyGoal) ||
           parsedState.dailyGoal < MIN_DAILY_GOAL ||
@@ -77,9 +93,11 @@ export function loadInitialState() {
         : sortQuestsByProgress(parsedState.quests);
 
     return {
-      dayKey: today,
+      dayKey: parsedState.dayKey,
       quests,
       dailyGoal: parsedState.dailyGoal ?? DEFAULT_DAILY_GOAL,
+      unlockedBadges: parsedState.unlockedBadges ?? [],
+      goalMetDates: parsedState.goalMetDates ?? [],
     };
   } catch (error) {
     console.error(
@@ -90,6 +108,7 @@ export function loadInitialState() {
       dayKey: today,
       quests: sortQuestsByProgress(copySampleQuests()),
       dailyGoal: DEFAULT_DAILY_GOAL,
+      ...getDefaultBadgeState(),
     };
   }
 }

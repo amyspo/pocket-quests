@@ -5,17 +5,21 @@ import ProgressPanel from './components/ProgressPanel.jsx'
 import QuestList from './components/QuestList.jsx'
 import QuestSectionHeader from './components/QuestSectionHeader.jsx'
 import WelcomeSection from './components/WelcomeSection.jsx'
+import BadgeArtwork from './components/BadgeArtwork.jsx'
+import BadgeScreen from './components/BadgeScreen.jsx'
 import useQuests from './hooks/useQuests.js'
 import './App.css'
 import logo from './assets/icons/LogoName.png'
 
 function App() {
   const [activeModal, setActiveModal] = useState(null)
+  const [activeScreen, setActiveScreen] = useState('home')
   const [editingQuest, setEditingQuest] = useState(null)
   const modalOpenerRef = useRef(null)
   const {
     quests,
     dailyGoal,
+    unlockedBadges,
     today,
     addQuest,
     editQuest,
@@ -30,6 +34,15 @@ function App() {
       modalOpenerRef.current = null
     }
   }, [activeModal])
+
+  if (activeScreen === 'badges') {
+    return (
+      <BadgeScreen
+        unlockedBadges={unlockedBadges}
+        onBack={() => setActiveScreen('home')}
+      />
+    )
+  }
 
   function saveQuest(questDetails) {
     if (editingQuest) {
@@ -70,7 +83,18 @@ function App() {
         <a className="wordmark" href="/" aria-label="Pocket Quests home">
           <img src={logo} alt="Pocket Quests logo" />
         </a>
-        <span className="top-bar-note">A little progress goes a long way</span>
+        <div className="top-bar-actions">
+          <span className="top-bar-note">A little progress goes a long way</span>
+          <button
+            className="trophy-button"
+            type="button"
+            aria-label="Open badges"
+            onClick={() => setActiveScreen('badges')}
+          >
+            <BadgeArtwork />
+            <span>Badges</span>
+          </button>
+        </div>
       </header>
 
       <WelcomeSection />

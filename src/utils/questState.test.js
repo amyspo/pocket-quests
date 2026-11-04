@@ -74,6 +74,8 @@ describe("loadInitialState", () => {
     expect(getItem).toHaveBeenCalledWith(STORAGE_KEY);
     expect(state.dayKey).toBe(getLocalDateKey());
     expect(state.dailyGoal).toBe(5);
+    expect(state.unlockedBadges).toEqual([]);
+    expect(state.goalMetDates).toEqual([]);
     expect(state.quests.map((quest) => quest.id)).toEqual(
       sortQuestsByProgress(sampleQuests).map((quest) => quest.id),
     );
@@ -107,5 +109,33 @@ describe("loadInitialState", () => {
     });
 
     expect(loadInitialState().dailyGoal).toBe(8);
+  });
+
+  it("defaults badge data when loading saved state from before badges existed", () => {
+    const savedState = {
+      dayKey: getLocalDateKey(),
+      quests: sampleQuests,
+    };
+    vi.stubGlobal("localStorage", {
+      getItem: vi.fn().mockReturnValue(JSON.stringify(savedState)),
+    });
+
+    expect(loadInitialState()).toMatchObject({
+      unlockedBadges: [],
+      goalMetDates: [],
+    });
+  });
+
+  it("preserves the last active day so rollover can evaluate it", () => {
+    const lastActiveDay = "2026-03-05";
+    const savedState = {
+      dayKey: lastActiveDay,
+      quests: sampleQuests,
+    };
+    vi.stubGlobal("localStorage", {
+      getItem: vi.fn().mockReturnValue(JSON.stringify(savedState)),
+    });
+
+    expect(loadInitialState().dayKey).toBe(lastActiveDay);
   });
 });

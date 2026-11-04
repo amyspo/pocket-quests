@@ -7,6 +7,10 @@ import {
   sortQuestsByProgress,
   STORAGE_KEY,
 } from '../utils/questState.js'
+import {
+  getCompletionBadgeUnlocks,
+  getDailyGoalBadgeUnlocks,
+} from '../utils/badges.js'
 
 function useQuests() {
   const [questState, setQuestState] = useState(loadInitialState)
@@ -33,9 +37,34 @@ function useQuests() {
           return currentState
         }
 
+        const previousDay = currentState.dayKey
+        const completedQuests = currentState.quests.filter((quest) =>
+          quest.completionDates.includes(previousDay),
+        ).length
+        const displayedGoal = Math.min(
+          currentState.quests.length,
+          currentState.dailyGoal,
+        )
+        const goalMet =
+          displayedGoal > 0 && completedQuests >= displayedGoal
+        const goalMetDates =
+          goalMet && !currentState.goalMetDates.includes(previousDay)
+            ? [...currentState.goalMetDates, previousDay]
+            : currentState.goalMetDates
+        const unlockedBadges = [
+          ...currentState.unlockedBadges,
+          ...getDailyGoalBadgeUnlocks(
+            goalMetDates,
+            currentState.unlockedBadges,
+          ),
+        ]
+
         return {
+          ...currentState,
           dayKey: currentDay,
           quests: sortQuestsByProgress(currentState.quests),
+          goalMetDates,
+          unlockedBadges,
         }
       })
     }
@@ -57,9 +86,9 @@ function useQuests() {
   }, [questState.dayKey])
 
   function toggleQuestCompletion(questId) {
-    setQuestState((currentState) => ({
-      ...currentState,
-      quests: currentState.quests.map((quest) => {
+    setQuestState((currentState) => {
+      let completedQuest = false
+      const quests = currentState.quests.map((quest) => {
         if (quest.id !== questId) {
           return quest
         }
@@ -69,9 +98,18 @@ function useQuests() {
           ? quest.completionDates.filter((date) => date !== today)
           : [...quest.completionDates, today]
 
+        completedQuest = !isCompletedToday
         return { ...quest, completionDates }
-      }),
-    }))
+      })
+      const unlockedBadges = completedQuest
+        ? [
+            ...currentState.unlockedBadges,
+            ...getCompletionBadgeUnlocks(quests, currentState.unlockedBadges),
+          ]
+        : currentState.unlockedBadges
+
+      return { ...currentState, quests, unlockedBadges }
+    })
   }
 
   function addQuest(questDetails) {
@@ -121,6 +159,8 @@ function useQuests() {
   return {
     quests: questState.quests,
     dailyGoal: questState.dailyGoal,
+    unlockedBadges: questState.unlockedBadges,
+    goalMetDates: questState.goalMetDates,
     today,
     addQuest,
     editQuest,
